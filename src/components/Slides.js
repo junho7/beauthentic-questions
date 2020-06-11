@@ -15,44 +15,45 @@ import "./Slides.css";
 import $ from "jquery";
 import End from './End';
 // import Papa from 'papaparse'
-import logo from './logo.svg';
-import { getByDisplayValue } from '@testing-library/react';
+// import logo from './logo.svg';
+// import { getByDisplayValue } from '@testing-library/react';
 // import './App.css';
+import Timer from './Timer'
 
-const slidesnum = 2
+const slidesnum = 44
 const autoplayspeed = 2000
 
-function handleClick () {
-  readRemoteFile('../asset/questions.csv', {
-    complete: (results) => {
-      console.log('Results:', results)
-    }
-  });
-}
+// function handleClick () {
+//   readRemoteFile('../asset/questions.csv', {
+//     complete: (results) => {
+//       console.log('Results:', results)
+//     }
+//   });
+// }
 
 function Slides(props) {
 
   // console.log("props: ", props)
   const [rows, setRows] = React.useState([])
-  const [redirect, setRedirect] = React.useState(false)
+  // const [redirect, setRedirect] = React.useState(false)
   const [now, setNow] = React.useState(new Date())
   const [startTime] = React.useState(new Date().getTime())
   // const startTime = new Date().getTime();
-  setInterval(e => {
-    setNow((new Date().getTime()))
-  }, 1000)
-  const handleRedirect = React.useCallback(() => {
-    let render = null;
-    if (redirect) {
-      console.log("redirect: ", redirect)
-        render = <Redirect to="/end" push={true} />
+  // var runTimer = setInterval(e => {
+  //   setNow((new Date().getTime()))
+  // }, 1000)
+//   const handleRedirect = React.useCallback(() => {
+//     let render = null;
+//     if (redirect) {
+//       console.log("redirect: ", redirect)
+//         render = <Redirect to="/end" push={true} />
 
-        // in order wait until commiting to the DOM
-        // and get back the button for clicking next time
-        setTimeout(() => setRedirect(false), 0);
-    }
-    return render;
-}, [redirect]);
+//         // in order wait until commiting to the DOM
+//         // and get back the button for clicking next time
+//         setTimeout(() => setRedirect(false), 0);
+//     }
+//     return render;
+// }, [redirect]);
   // const [minutes, setMinutes] = useState(0)
   // const [seconds, setSeconds] = React.useState(0)
   // const [isActive, setIsActive] = React.useState(true)
@@ -163,8 +164,9 @@ function Slides(props) {
         console.log("checkend: "+checkend)
 
         setTimeout(()=>{console.log("setTimeout");
+        // clearInterval(runTimer);
         props.history.push("/end");
-      }, 1000);
+      }, 5000);
       }
     }
   };
@@ -197,32 +199,33 @@ function Slides(props) {
 //     />
 //   );
 // }
-const getDisp = () => {
-  const t = Math.floor((now - startTime)/1000)
-  const ss = t % 60
-  const m = Math.floor(t/60)
-  const mm = m % 60
-  const hh = Math.floor(mm / 60)
-  const z = (num) => {
-    const s = '00' + String(num)
-    return s.substr(s.length - 2, 2)
-  }
-  return <span>{z(mm)}:{z(ss)}</span>
-}
+// const getDisp = () => {
+//   const t = Math.floor((now - startTime)/1000)
+//   const ss = t % 60
+//   const m = Math.floor(t/60)
+//   const mm = m % 60
+//   const hh = Math.floor(mm / 60)
+//   const z = (num) => {
+//     const s = '00' + String(num)
+//     return s.substr(s.length - 2, 2)
+//   }
+//   return <span>{z(mm)}:{z(ss)}</span>
+// }
 // const t = {Math.floor((now - startTime)/1000)}
 
   return (
     <div>
       {/* <Table cols={tripColumns} rows={rows} /> */}
       {/* {rows} */}
-      <p> {getDisp()} </p>
+      {/* <p> {getDisp()} </p> */}
+      <p><Timer /></p>
       <Slider {...settings}>
             {rows.map((value, index) => {
               // console.log(value[2])
               // console.log(index)
               return (      
-                <div>
-              <div className="qnumber"> Question #{value[0]} </div>
+                <div key={value[0]}>
+              <div className="qnumber" > Question #{value[0]} </div>
               <div> {value[2]} </div>
               </div>        
               )

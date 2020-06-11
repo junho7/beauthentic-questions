@@ -20,9 +20,10 @@ export default class End extends React.Component {
       "width": "30vw",
       "color": "#564D65",
       "backgroundColor": "#2CDA9D",
-      "fontSize":"30px",
+      // "fontSize":"30px",
       "border" : "none",
-      "padding" : "5px 40px",
+      // "padding" : "5px 40px",
+      "padding" : "10px 0px 10px",
       "fontWeight" : "bold"
       
     };
