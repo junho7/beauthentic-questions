@@ -1,23 +1,28 @@
-import React, {Component} from 'react';
+import React, {Component, useRef} from 'react';
 import ReactDOM from 'react-dom';
-// import {Redirect} from 'react-router-dom';
-import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  Redirect
-} from 'react-router-dom'
+// import queryString from 'query-string';
+// import { withRouter} from 'react-router-dom';
+import { getQuestionset } from "./Firebase/firebase";
+// import {
+//   BrowserRouter as Router,
+//   Route,
+//   Link,
+//   Redirect
+// } from 'react-router-dom'
+import { Link } from "@reach/router";
 import { readRemoteFile } from 'react-papaparse';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./Slides.css";
+// import "./src/components/Slides.css";
 import $ from "jquery";
-import End from './End';
+import Home from './Home';
 // import Papa from 'papaparse'
 // import logo from './logo.svg';
 // import { getByDisplayValue } from '@testing-library/react';
 // import './App.css';
+import { Form, Col, InputGroup, FormControl, Container, Button, Modal } from 'react-bootstrap';
 import Timer from './Timer'
 
 const slidesnum = 44
@@ -31,9 +36,18 @@ const autoplayspeed = 2000
 //   });
 // }
 
-function Slides(props) {
 
-  // console.log("props: ", props)
+// function Slides(props) {
+const Slides = (props) => {
+// export default class Slides extends Component {
+    const slider = useRef();
+    console.log("this: ", this);
+    console.log("slider useRef:", slider);
+  // var url = props.url;
+  
+  console.log("props: ", props)
+  const [isEnd, setIsend] = React.useState(false)
+  const [rowNum, setRownum] = React.useState(0)
   const [rows, setRows] = React.useState([])
   // const [redirect, setRedirect] = React.useState(false)
   const [now, setNow] = React.useState(new Date())
@@ -75,12 +89,39 @@ function Slides(props) {
         throw new RangeError("getRandom: more elements taken than available");
     while (n--) {
         var x = Math.floor(Math.random() * len);
-        result[n] = arr[x in taken ? taken[x] : x];
+        // result[n] = arr[x in taken ? taken[x] : x];
+        result[n] = [arr[x in taken ? taken[x] : x][0], arr[x in taken ? taken[x] : x][2]];
         taken[x] = --len in taken ? taken[len] : len;
     }
+    // console.log(result)
+
+
     return result;
 }
-
+function publicquestion (){
+readRemoteFile('../questions.csv', {
+  complete: (results) => {
+    console.log('Results:', results.data)
+    
+    // const rows = getRandom(results.data, slidesnum)
+    setRownum(results.data.length)
+    const rows = getRandom(results.data, results.data.length)
+    // const rows = results.data
+    
+    setRows(rows)
+    return (
+      // <div>
+      // {results.data.map((value, index) => {
+      //   console.log(value[2])
+      //   console.log(index)
+      //   return (<li> {value[2]} </li>)
+      // })}
+      // </div>
+      1
+    );
+  }
+}      );
+}
 
   React.useEffect(() => {
     // async function getData() {
@@ -92,25 +133,37 @@ function Slides(props) {
       // const results = Papa.parse(csv, { header: true }) // object with { data, errors, meta }
       // const rows = results.data // array of objects
       // setRows(rows)
-      readRemoteFile('./questions.csv', {
-        complete: (results) => {
-          console.log('Results:', results.data)
-          
-          const rows = getRandom(results.data, slidesnum)
-          // const rows = results.data
-          setRows(rows)
-          return (
-            // <div>
-            // {results.data.map((value, index) => {
-            //   console.log(value[2])
-            //   console.log(index)
-            //   return (<li> {value[2]} </li>)
-            // })}
-            // </div>
-            1
-          );
-        }
-      });
+        // slider.current.slickGoTo(1);
+      console.log(props)
+      // console.log('*' in props)
+      // if (!('questionset' in props) || (props.questionset == 'default') ){
+      if (!('*' in props) || (props['*'] == '') ){
+        publicquestion()
+      } else {
+      
+      // const questionset = getQuestionset(props.questionset).then((res)=>{console.log(res);
+      const questionset = getQuestionset(props['*']).then((res)=>{console.log(res);
+      // for index in range(len(res))
+      if(typeof res !== 'undefined'){
+      setRownum(res.length)
+      const resrow = []
+      for (let i=0;i<res.length;i++){
+        resrow[i] = [i, res[i]]
+      }
+        setRows(resrow); 
+        console.log(rows);
+      } else {
+        publicquestion();
+      }
+    
+    })
+    
+      }
+     
+      // const questionset = getQuestionset(props.questionset)
+      // questionset.
+      // console.log("questionset: "+questionset)
+     
     
     // getData()
   }, []) 
@@ -144,7 +197,7 @@ function Slides(props) {
 
   var settings = {
     // dots: true,
-    autoplay: false,
+    autoplay: true,
     autoplayspeed: autoplayspeed,
     infinite: false,
     speed: 500,
@@ -159,17 +212,22 @@ function Slides(props) {
       console.log(
         `Slider Changed to: ${index + 1}, background: #222; color: #bada55`
       );
-      const checkend = slidesnum - index - 1
+      // const checkend = slidesnum - index - 1
+      const checkend = rowNum - index - 1
+      console.log("checkend: ", checkend);
       if (checkend === 0) {
         console.log("checkend: "+checkend)
 
         setTimeout(()=>{console.log("setTimeout");
         // clearInterval(runTimer);
-        props.history.push("/end");
+        // props.history.push("/end");
+        setIsend(true);
       }, 5000);
       }
     }
   };
+
+  
 
   // $('.slick-carousel').slick('unslick').slick('reinit').slick()
   // console.log($('.slick-carousel').slick())
@@ -214,24 +272,64 @@ function Slides(props) {
 // const t = {Math.floor((now - startTime)/1000)}
 
   return (
-    <div>
+    <div className='vh-100 container d-flex justify-content-center text-center align-items-center'>
       {/* <Table cols={tripColumns} rows={rows} /> */}
       {/* {rows} */}
       {/* <p> {getDisp()} </p> */}
+      {/* <p>{url}</p> */}
+      <div>
       <p><Timer /></p>
-      <Slider {...settings}>
+      <Slider ref={slider} {...settings}>
+      {/* <Slider  {...settings}> */}
             {rows.map((value, index) => {
               // console.log(value[2])
               // console.log(index)
               return (      
-                <div key={value[0]}>
-              <div className="qnumber" > Question #{value[0]} </div>
-              <div> {value[2]} </div>
+                // <div key={value[0]}>
+                <div key={index+1}> 
+              {/* <div className="qnumber" > Question #{index+1} </div> */}
+              <div className="qnumber" > Question #{Number(value[0])+1} </div>
+              <div> {value[1]} </div>
+              {/* <div> {value} </div> */}
               </div>        
               )
             })}
             </Slider>
             {/* <div>{Math.floor(seconds/60)} : {Math.floor(seconds%60)}</div> */}
+            </div>
+            {isEnd ?
+  <Modal
+        show={isEnd}
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title></Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+        Thank you for sharing who you are
+        </Modal.Body>
+        <Modal.Footer>
+          <Link to={'/slides/'+props['*']}>
+          <Button variant="secondary"
+          onClick={e => {setIsend(false); 
+          console.log("slider.current: ",slider.current);
+          console.log("slider: ",slider);
+            slider.current.slickGoTo(0);slider.current.slickPlay();
+            }}
+            >
+            Restart
+          </Button>
+          </Link>
+          <Link to='/'>
+          <Button variant="secondary">
+            Home
+          </Button>
+          </Link>
+        </Modal.Footer>
+      </Modal>
+: null
+}
     </div>
   )
           
