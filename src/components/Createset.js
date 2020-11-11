@@ -242,7 +242,7 @@ const Createset = () => {
           <Button className="mr-2"
             onClick={isSaved ? null : (event)=>handleSubmit(event)}> {isSaved? "Saved": "Save"} </Button>
           {url != '' &&
-          <textarea readOnly id='urlString' style={{display:"none"}} onClick={(event)=>copyUrl(event)} value={"http://localhost:3000/slides/"+url}> http://localhost:3000/slides/{url} Click to copy</textarea>
+          <textarea readOnly id='urlString' style={{display:"none"}} onClick={(event)=>copyUrl(event)} value={"https://beauthentic-questions.firebaseapp.com/slides/"+url}> https://beauthentic-questions.firebaseapp.com/slides/{url} Click to copy</textarea>
           }
 {isSaved ?
   <Modal

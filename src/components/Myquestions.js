@@ -90,7 +90,7 @@ const Myquestions = () => {
 </Link>
 </InputGroup.Prepend>
 <FormControl
-   value={"http://localhost:3000/slides/"+key}
+   value={"https://beauthentic-questions.firebaseapp.com/slides/"+key}
    onClick={(event)=>copyUrl(event)}
    id={key}
 />

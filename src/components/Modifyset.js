@@ -239,7 +239,7 @@ const Modifyset = (props) => {
   }
   
      
-<textarea readOnly id='urlString' style={{display:"none"}} onClick={(event)=>copyUrl(event)} value={"http://localhost:3000/slides/"+props.questionset}> http://localhost:3000/slides/{props.questionset} Click to copy</textarea>
+<textarea readOnly id='urlString' style={{display:"none"}} onClick={(event)=>copyUrl(event)} value={"https://beauthentic-questions.firebaseapp.com/slides/"+props.questionset}> https://beauthentic-questions.firebaseapp.com/slides/{props.questionset} Click to copy</textarea>
 
         </Container>
     
