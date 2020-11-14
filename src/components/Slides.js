@@ -26,7 +26,7 @@ import { Form, Col, InputGroup, FormControl, Container, Button, Modal } from 're
 import Timer from './Timer'
 
 const slidesnum = 44
-const autoplayspeed = 2000
+const autoplayspeed = 120*1000
 
 // function handleClick () {
 //   readRemoteFile('../asset/questions.csv', {
