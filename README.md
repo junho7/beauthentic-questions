@@ -6,7 +6,7 @@ Live on [here](https://ask.beauthentic.io/)
 
 The main purpose of the service is to help members of the organization, such as schools and companies, get to know each other better in fun ways.
 
-Frontend: React, Javascript
+Frontend: React, Javascript  
 Backend: Firebase
 
 
