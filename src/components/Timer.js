@@ -13,7 +13,6 @@ export default class Timer extends React.Component {
       () => this.tick(),
       1000
     );
-    // const startTime = new Date().getTime();
   }
 
   componentWillUnmount() {
