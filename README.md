@@ -1,7 +1,12 @@
 This is a project for [beAuthentic](https://www.beauthentic.io/)
+
 Live on [here](https://ask.beauthentic.io/)
 
+The main purpose of the service is to help members of the organization, such as schools and companies, get to know each other better in fun ways.
 
+![screenhot1](/screenshot1.png?raw=true "screenshot1")
+
+![screenhot2](/screenshot2.png?raw=true "screenshot2")
 
 ## Available Scripts
 
