@@ -18,7 +18,6 @@ const SignUp = () => {
     try{
       const {user} = await auth.createUserWithEmailAndPassword(email, password);
       console.log(user)
-      // generateUserDocument(user, {displayName});
       generateUserDocument({user: user, displayName: {displayName}});
     }
     catch(error){
@@ -33,7 +32,6 @@ const SignUp = () => {
   const loginHandler = () => {
     authContext.login();
     console.log("authcontext loggedIn")
-    // signInWithGoogle();
 };
 
   const onChangeHandler = event => {
@@ -63,7 +61,7 @@ const SignUp = () => {
           onClick={() => {
             try {
               signInWithGoogle().then((result)=>{  var token = result.credential.accessToken;
-                // The signed-in user info.
+
                 var user = result.user;
                 console.log(token);
                 console.log(user); ; loginHandler();});
@@ -80,9 +78,6 @@ const SignUp = () => {
         </GoogleLoginButton>
           <div className="or-seperator"><b>or</b></div>
         <div className="form-group social-btn clearfix">
-          {/* <label htmlFor="displayName" className="block">
-            Display Name:
-          </label> */}
           <input
             type="text"
             className="form-control mt-2"
@@ -92,9 +87,7 @@ const SignUp = () => {
             id="displayName"
             onChange={event => onChangeHandler(event)}
           />
-          {/* <label htmlFor="userEmail" className="block">
-            Email:
-          </label> */}
+
           </div>
           <div className="form-group">
           <input
@@ -106,9 +99,7 @@ const SignUp = () => {
             id="userEmail"
             onChange={event => onChangeHandler(event)}
           />
-          {/* <label htmlFor="userPassword" className="block">
-            Password:
-          </label> */}
+
           </div>
           <div>
           <input
