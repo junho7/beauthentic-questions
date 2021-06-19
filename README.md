@@ -1,6 +1,6 @@
 <h1 align="center">RapidFire</h1>
 
-This is a project for [beAuthentic](https://www.beauthentic.io/). They provided a broad concept. I designed and developed both frontend and backend by myself.
+This is a project for a startup [beAuthentic](https://www.beauthentic.io/). They provided a broad concept. I designed and developed both frontend and backend by myself.
 
 Live on [here](https://ask.beauthentic.io/)
 
